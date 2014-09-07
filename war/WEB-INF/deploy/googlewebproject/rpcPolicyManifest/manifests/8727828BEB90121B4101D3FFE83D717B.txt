@@ -1,0 +1,2 @@
+serviceClass: com.abamath.checkin.client.GreetingService
+path: 7F97E6617D708C6EBD53610C9D30D392.gwt.rpc
