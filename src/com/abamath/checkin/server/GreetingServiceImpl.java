@@ -1,48 +1,68 @@
 package com.abamath.checkin.server;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.abamath.checkin.client.GoogleWebProject;
 import com.abamath.checkin.client.GreetingService;
-import com.abamath.checkin.shared.FieldVerifier;
+import com.abamath.checkin.shared.User;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.PropertiesCredentials;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
-
-	public String greetServer(String input) throws IllegalArgumentException {
-		// Verify that the input is valid. 
-		if (!FieldVerifier.isValidName(input)) {
-			// If the input is not valid, throw an IllegalArgumentException back to
-			// the client.
-			throw new IllegalArgumentException(
-					"Name must be at least 4 characters long");
+public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+	private static AmazonDynamoDB dynamoDB;
+	
+	public GreetingServiceImpl() {
+		try {
+			setupDB();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-
-		// Escape data from the client to avoid cross-site script vulnerabilities.
-		input = escapeHtml(input);
-		userAgent = escapeHtml(userAgent);
-
-		return "Hello, " + input + "!<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+	}
+	
+	@Override
+	public void greetServer(Map<String, String> user) throws IllegalArgumentException {
+		try {
+			// Store the items in a hashmap
+			Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
+			// Put the data in the item
+			item.put("Id",
+					new AttributeValue().withN("1"));
+			item.put("Name",
+					new AttributeValue().withN("Tom"));
+			//PutItemRequest itemRequest = new PutItemRequest()
+			//		.withTableName("PUT_THE_TABLE_NAME_HERE")
+			//		.withItem(item);
+			// Make the request
+			//dynamoDB.putItem(itemRequest);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public List<User> getUsers() {
+		
+		
+		
+		return null;		
+	}
+	
+	private static void setupDB() throws IOException {
+		AWSCredentials credentials = new PropertiesCredentials(
+				GoogleWebProject.class
+						.getResourceAsStream("AWSCredentials.properties"));
+		dynamoDB = new AmazonDynamoDBClient(credentials);
 	}
 
-	/**
-	 * Escape an html string. Escaping data received from the client helps to
-	 * prevent cross-site script vulnerabilities.
-	 * 
-	 * @param html the html string to escape
-	 * @return the escaped string
-	 */
-	private String escapeHtml(String html) {
-		if (html == null) {
-			return null;
-		}
-		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;");
-	}
 }
