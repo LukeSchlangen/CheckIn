@@ -23,23 +23,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	private static AmazonDynamoDB dynamoDB;
 	
 	public GreetingServiceImpl() {
-		try {
-			setupDB();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//setupDB();
+
 	}
 	
 	@Override
 	public void greetServer(Map<String, String> user) throws IllegalArgumentException {
 		try {
 			// Store the items in a hashmap
-			Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
+			//Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
 			// Put the data in the item
-			item.put("Id",
-					new AttributeValue().withN("1"));
-			item.put("Name",
-					new AttributeValue().withN("Tom"));
+			//item.put("Id",
+			//		new AttributeValue().withN("1"));
+			//item.put("Name",
+			//		new AttributeValue().withN("Tom"));
 			//PutItemRequest itemRequest = new PutItemRequest()
 			//		.withTableName("PUT_THE_TABLE_NAME_HERE")
 			//		.withItem(item);

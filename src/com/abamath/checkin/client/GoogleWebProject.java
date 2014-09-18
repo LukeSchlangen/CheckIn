@@ -12,7 +12,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -23,16 +26,29 @@ public class GoogleWebProject implements EntryPoint {
 	private final Map<String, String> userClicked = new HashMap<String, String>();
 	
 	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
-	private Panel outPanel = new VerticalPanel();
-	private Panel inPanel = new VerticalPanel();
+	private Panel addPanel;
+	private Panel outPanel;
+	private Panel inPanel;
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		addPanel = new HorizontalPanel();
+		outPanel = new VerticalPanel();
+		inPanel = new VerticalPanel();
 		
-		showButtons();
-
+		outPanel.add(new Label("OUT"));
+		inPanel.add(new Label("IN"));
+		
+		outPanel.add(new Button("Tom"));
+		inPanel.add(new Button("Luke"));
+		
+		//showButtons();
+		
+		addPanel.add(outPanel);
+		addPanel.add(inPanel);
+		RootPanel.get().add(addPanel);
 	}
 	
 	private void showButtons() {
@@ -46,14 +62,11 @@ public class GoogleWebProject implements EntryPoint {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
-				for(int i = 0; i < result.size(); i++) {
+				for(int i = 0; i < 5; i++) {
 					Button button = new Button();
-					if(result.get(i).getStatus().equals("in")) {
-						inPanel.add(button.asWidget());
-					}
-					else {
-						outPanel.add(button.asWidget());
-					}
+					
+					inPanel.add(button.asWidget());
+					outPanel.add(button.asWidget());
 					
 					button.addClickHandler(new MyHandler());
 				}				
@@ -63,7 +76,7 @@ public class GoogleWebProject implements EntryPoint {
 	
 	private class MyHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			sendClickToServer();
+			//sendClickToServer();
 		}	
 
 		private void sendClickToServer() {
