@@ -41,10 +41,7 @@ public class GoogleWebProject implements EntryPoint {
 		outPanel.add(new Label("OUT"));
 		inPanel.add(new Label("IN"));
 		
-		outPanel.add(new Button("Tom"));
-		inPanel.add(new Button("Luke"));
-		
-		//showButtons();
+		showButtons();
 		
 		addPanel.add(outPanel);
 		addPanel.add(inPanel);
@@ -62,13 +59,19 @@ public class GoogleWebProject implements EntryPoint {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
-				for(int i = 0; i < 5; i++) {
-					Button button = new Button();
+				for(int i = 0; i < result.size(); i++) {
+					User user = result.get(i);
 					
-					inPanel.add(button.asWidget());
-					outPanel.add(button.asWidget());
-					
+					Button button = new Button(user.getName());
 					button.addClickHandler(new MyHandler());
+					button.setSize("200px", "100px");
+					
+					if(user.getStatus().equals("In")) {
+						inPanel.add(button);
+					}
+					else {
+						outPanel.add(button);
+					}
 				}				
 			}			
 		});

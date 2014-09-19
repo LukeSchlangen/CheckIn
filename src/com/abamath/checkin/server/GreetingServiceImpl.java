@@ -1,6 +1,7 @@
 package com.abamath.checkin.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -21,10 +24,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 	private static AmazonDynamoDB dynamoDB;
+	private final static String MEMBER_TABLE_NAME = "Members";
+	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
-	public GreetingServiceImpl() {
-		//setupDB();
-
+	public GreetingServiceImpl() throws IOException {
+		setupDB();
 	}
 	
 	@Override
@@ -49,17 +53,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	
 	@Override
 	public List<User> getUsers() {
-		
-		
-		
-		return null;		
+		List<User> userList = new ArrayList<User>();
+		ScanRequest request = new ScanRequest().withTableName(MEMBER_TABLE_NAME);
+		ScanResult result = dynamoDB.scan(request);
+			
+		for(Map<String, AttributeValue> map : result.getItems()) {
+			User user = new User();				
+			user.setName(map.get("Name").getS());
+			user.setColor(map.get("Color").getS());
+			user.setStatus(map.get("Status").getS());
+			userList.add(user);
+		}
+					
+		return userList;		
 	}
 	
 	private static void setupDB() throws IOException {
-		AWSCredentials credentials = new PropertiesCredentials(
-				GoogleWebProject.class
-						.getResourceAsStream("AWSCredentials.properties"));
+		
+		AWSCredentials credentials = new PropertiesCredentials(GreetingServiceImpl.class.getResourceAsStream("AWSCredentials.properties"));
 		dynamoDB = new AmazonDynamoDBClient(credentials);
+		dynamoDB.setEndpoint(END_POINT);
 	}
 
 }
