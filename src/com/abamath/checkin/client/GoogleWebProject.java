@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -30,14 +32,29 @@ public class GoogleWebProject implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		addPanel = new HorizontalPanel();
-		outPanel = new VerticalPanel();
-		inPanel = new VerticalPanel();
+		outPanel = new HTMLPanel("");
+		inPanel = new HTMLPanel("");
 		
 		outPanel.add(new Label("OUT"));
 		inPanel.add(new Label("IN"));
 		
 		showButtons();
-		
+	    // Create a Label and an HTML widget.
+	    Label lbl = new Label("This is just text.  It will not be interpreted "
+	      + "as <html>.");
+
+	    HTML html = new HTML(
+	      "This is <b>HTML</b>.  It will be interpreted as such if you specify "
+	        + "the <span style='font-family:fixed'>asHTML</span> flag.", true);
+
+	    // Add them to the root panel.
+	    VerticalPanel panel = new VerticalPanel();
+	    panel.add(lbl);
+	    panel.add(html);
+	    RootPanel.get().add(panel);
+		HorizontalPanel hp = new HorizontalPanel();
+		HTML html2 = new HTML("<p>This is html with a <a href='www.google.com'>link</a></p>");
+		hp.add(html2); // adds the widget to the panel
 		addPanel.add(outPanel);
 		addPanel.add(inPanel);
 		RootPanel.get().add(addPanel);
@@ -54,6 +71,8 @@ public class GoogleWebProject implements EntryPoint {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
+				int inPanelButtonCount = 0;
+				int outPanelButtonCount = 0;
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
 					
@@ -63,11 +82,19 @@ public class GoogleWebProject implements EntryPoint {
 					
 					if(user.getStatus().equals("In")) {
 						inPanel.add(button);
+						inPanelButtonCount++;
 					}
 					else {
 						outPanel.add(button);
+						outPanelButtonCount++;
 					}
-				}				
+				}	
+
+				String inPanelWidth = Math.max(inPanelButtonCount * 50, 200) + "px";
+				String outPanelWidth = Math.max(outPanelButtonCount * 50, 200) + "px";
+				inPanel.setWidth(inPanelWidth);
+				outPanel.setWidth(outPanelWidth);
+				
 			}			
 		});
 	}

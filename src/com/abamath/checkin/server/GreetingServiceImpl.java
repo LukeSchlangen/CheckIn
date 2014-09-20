@@ -87,5 +87,5 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		dynamoDB = new AmazonDynamoDBClient(credentials);
 		dynamoDB.setEndpoint(END_POINT);
 	}
-
+	
 }
