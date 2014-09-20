@@ -1,12 +1,13 @@
 package com.abamath.checkin.server;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.abamath.checkin.client.GoogleWebProject;
 import com.abamath.checkin.client.GreetingService;
 import com.abamath.checkin.shared.User;
 import com.amazonaws.auth.AWSCredentials;
@@ -14,8 +15,11 @@ import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
+import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
+import com.amazonaws.services.dynamodbv2.model.UpdateItemRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -25,6 +29,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 	private static AmazonDynamoDB dynamoDB;
 	private final static String MEMBER_TABLE_NAME = "Members";
+	private final static String HISTORY_TABLE_NAME = "check-in-times";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
 	public GreetingServiceImpl() throws IOException {
@@ -32,20 +37,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 	
 	@Override
-	public void greetServer(Map<String, String> user) throws IllegalArgumentException {
+	public void buttonClick(User user) throws IllegalArgumentException {
 		try {
-			// Store the items in a hashmap
-			//Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
-			// Put the data in the item
-			//item.put("Id",
-			//		new AttributeValue().withN("1"));
-			//item.put("Name",
-			//		new AttributeValue().withN("Tom"));
-			//PutItemRequest itemRequest = new PutItemRequest()
-			//		.withTableName("PUT_THE_TABLE_NAME_HERE")
-			//		.withItem(item);
-			// Make the request
-			//dynamoDB.putItem(itemRequest);
+			Map<String, AttributeValue> key = new HashMap<String, AttributeValue>();
+			key.put("Name", new AttributeValue().withS(user.getName()));
+			key.put("Color", new AttributeValue().withS(user.getColor()));
+			Map<String, AttributeValueUpdate> update = new HashMap<String, AttributeValueUpdate>();
+			update.put("Status", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getStatus())));
+			UpdateItemRequest updateRequest = new UpdateItemRequest()
+					.withTableName(MEMBER_TABLE_NAME)
+					.withKey(key)
+					.withAttributeUpdates(update);
+			dynamoDB.updateItem(updateRequest);
+
+			key = new HashMap<String, AttributeValue>();
+			key.put("ID", new AttributeValue().withS(new Timestamp(new Date().getTime()).toString()));
+			key.put("MemberName", new AttributeValue().withS(user.getName()));
+			PutItemRequest putRequest = new PutItemRequest()
+				.withTableName(HISTORY_TABLE_NAME)
+				.withItem(key);
+			dynamoDB.putItem(putRequest);
+			System.out.println("here");
+			
 		} catch (Exception e) {
 			throw e;
 		}

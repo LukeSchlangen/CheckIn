@@ -1,7 +1,6 @@
 package com.abamath.checkin.client;
 
 import java.util.List;
-import java.util.Map;
 
 import com.abamath.checkin.shared.User;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -12,6 +11,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
-	void greetServer(Map<String,String> user) throws IllegalArgumentException;
+	void buttonClick(User user) throws IllegalArgumentException;
 	List<User> getUsers();
 }

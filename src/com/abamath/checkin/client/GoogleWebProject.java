@@ -1,15 +1,12 @@
 package com.abamath.checkin.client;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.abamath.checkin.shared.User;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,8 +20,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class GoogleWebProject implements EntryPoint {
 
-	private final Map<String, String> userClicked = new HashMap<String, String>();
-	
 	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
 	private Panel addPanel;
 	private Panel outPanel;
@@ -63,7 +58,7 @@ public class GoogleWebProject implements EntryPoint {
 					User user = result.get(i);
 					
 					Button button = new Button(user.getName());
-					button.addClickHandler(new MyHandler());
+					button.addClickHandler(new MyHandler(user));
 					button.setSize("200px", "100px");
 					
 					if(user.getStatus().equals("In")) {
@@ -78,12 +73,31 @@ public class GoogleWebProject implements EntryPoint {
 	}
 	
 	private class MyHandler implements ClickHandler {
+		private User user;
+		
+		public MyHandler(User user) {
+			this.user = user;
+		}
+		
 		public void onClick(ClickEvent event) {
-			//sendClickToServer();
+			Button clicked = (Button) event.getSource();
+
+			if(clicked.getParent().equals(inPanel)) {
+				clicked.removeFromParent();
+				outPanel.add(clicked);
+				user.setStatus("Out");
+			}
+			else {
+				clicked.removeFromParent();
+				inPanel.add(clicked);
+				user.setStatus("In");
+			}
+				
+			sendClickToServer(user);
 		}	
 
-		private void sendClickToServer() {
-			service.greetServer(userClicked, new AsyncCallback<Void>() {
+		private void sendClickToServer(User user) {
+			service.buttonClick(user, new AsyncCallback<Void>() {
 				@Override
 				public void onFailure(Throwable caught) {
 					//probably do some error handling here
@@ -94,7 +108,7 @@ public class GoogleWebProject implements EntryPoint {
 				}
 				@Override
 				public void onSuccess(Void result) {
-					showButtons();									
+					//do nothing									
 				}
 			});
 		}
