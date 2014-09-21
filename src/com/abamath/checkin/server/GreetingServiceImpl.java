@@ -51,8 +51,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			dynamoDB.updateItem(updateRequest);
 
 			key = new HashMap<String, AttributeValue>();
-			key.put("ID", new AttributeValue().withS(new Timestamp(new Date().getTime()).toString()));
-			key.put("MemberName", new AttributeValue().withS(user.getName()));
+			key.put("Time", new AttributeValue().withS(new Timestamp(new Date().getTime()).toString()));
+			key.put("Member", new AttributeValue().withS(user.getName()));
 			PutItemRequest putRequest = new PutItemRequest()
 				.withTableName(HISTORY_TABLE_NAME)
 				.withItem(key);
