@@ -8,6 +8,7 @@ public class User implements Serializable {
 	private String name;
 	private String color;
 	private String status;
+	private String time;
 	
 	public User(){}
 	
@@ -28,6 +29,12 @@ public class User implements Serializable {
 	}	
 	public String getStatus() {
 		return status;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getTime() {
+		return time;
 	}
 
 }

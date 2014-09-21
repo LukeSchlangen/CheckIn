@@ -1,5 +1,7 @@
 package com.abamath.checkin.client;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.abamath.checkin.shared.User;
@@ -101,6 +103,8 @@ public class GoogleWebProject implements EntryPoint {
 	
 	private class MyHandler implements ClickHandler {
 		private User user;
+		private Timestamp in;
+		private Timestamp out;
 		
 		public MyHandler(User user) {
 			this.user = user;
@@ -113,11 +117,14 @@ public class GoogleWebProject implements EntryPoint {
 				clicked.removeFromParent();
 				outPanel.add(clicked);
 				user.setStatus("Out");
+				out = new Timestamp(new Date().getTime());
+				user.setTime(timeDiff(in, out));
 			}
 			else {
 				clicked.removeFromParent();
 				inPanel.add(clicked);
 				user.setStatus("In");
+				in = new Timestamp (new Date().getTime());
 			}
 				
 			sendClickToServer(user);
@@ -138,6 +145,12 @@ public class GoogleWebProject implements EntryPoint {
 					//do nothing									
 				}
 			});
+		}
+		
+		private String timeDiff(Timestamp in, Timestamp out) {
+			long diff = out.getTime() - in.getTime();
+			long currentTime = Long.parseLong(user.getTime()) * 60000;
+			return String.valueOf((diff + currentTime) / 60000);
 		}
 	}
 }

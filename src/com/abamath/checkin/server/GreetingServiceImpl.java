@@ -44,6 +44,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			key.put("Color", new AttributeValue().withS(user.getColor()));
 			Map<String, AttributeValueUpdate> update = new HashMap<String, AttributeValueUpdate>();
 			update.put("Status", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getStatus())));
+			if(user.getStatus().equals("Out")) {
+				update.put("Time", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getTime())));
+			}
 			UpdateItemRequest updateRequest = new UpdateItemRequest()
 					.withTableName(MEMBER_TABLE_NAME)
 					.withKey(key)
@@ -57,8 +60,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				.withTableName(HISTORY_TABLE_NAME)
 				.withItem(key);
 			dynamoDB.putItem(putRequest);
-			System.out.println("here");
-			
+		
 		} catch (Exception e) {
 			throw e;
 		}
@@ -75,6 +77,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			user.setName(map.get("Name").getS());
 			user.setColor(map.get("Color").getS());
 			user.setStatus(map.get("Status").getS());
+			user.setTime(map.get("Time").getS());
 			userList.add(user);
 		}
 					
