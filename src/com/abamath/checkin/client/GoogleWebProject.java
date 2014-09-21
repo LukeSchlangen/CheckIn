@@ -26,8 +26,8 @@ public class GoogleWebProject implements EntryPoint {
 
 	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
 	private Panel addPanel;
-	private Panel outPanel;
-	private Panel inPanel;
+	private HTMLPanel outPanel;
+	private HTMLPanel inPanel;
 
 	/**
 	 * This is the entry point method.
@@ -45,18 +45,12 @@ public class GoogleWebProject implements EntryPoint {
 	    Label lbl = new Label("This is just text.  It will not be interpreted "
 	      + "as <html>.");
 
-	    HTML html = new HTML(
-	      "This is <b>HTML</b>.  It will be interpreted as such if you specify "
-	        + "the <span style='font-family:fixed'>asHTML</span> flag.", true);
+	    HTML html = new HTML("Abamath Check In System", true);
 
 	    // Add them to the root panel.
-	    VerticalPanel panel = new VerticalPanel();
-	    panel.add(lbl);
-	    panel.add(html);
-	    RootPanel.get().add(panel);
-		HorizontalPanel hp = new HorizontalPanel();
-		HTML html2 = new HTML("<p>This is html with a <a href='www.google.com'>link</a></p>");
-		hp.add(html2); // adds the widget to the panel
+	    VerticalPanel headPanel = new VerticalPanel();
+	    headPanel.add(html);
+	    RootPanel.get().add(headPanel);
 		addPanel.add(outPanel);
 		addPanel.add(inPanel);
 		RootPanel.get().add(addPanel);
@@ -73,29 +67,43 @@ public class GoogleWebProject implements EntryPoint {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
-				int inPanelButtonCount = 0;
-				int outPanelButtonCount = 0;
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
 					
-					Button button = new Button(user.getName());
+					Button button = new Button("<nameLabel>" + user.getName() + "</nameLabel><br/>" + user.getTime() + " Hours");
 					button.addClickHandler(new MyHandler(user));
 					button.setSize("200px", "100px");
 					
+					//button styling
+					switch (user.getColor()) {
+		            case "Yellow":  button.addStyleName("yellow");;
+		                     break;
+		            case "Green":  button.addStyleName("green");;
+		                     break;
+		            case "Red":  button.addStyleName("red");;
+		                     break;
+		            default: button.addStyleName("blue");;
+		                     break;
+		        }
+					
 					if(user.getStatus().equals("In")) {
 						inPanel.add(button);
-						inPanelButtonCount++;
+						//inPanelButtonCount++;
 					}
 					else {
 						outPanel.add(button);
-						outPanelButtonCount++;
+						//outPanelButtonCount++;
 					}
-				}	
+				}
+				
+				inPanel.addStyleName("htmlPanel");
+				outPanel.addStyleName("htmlPanel");
+				inPanel.addStyleName("inPanel");
+				outPanel.addStyleName("outPanel");
+				
+				inPanel = ResizePanel(inPanel);
+				outPanel = ResizePanel(outPanel);
 
-				String inPanelWidth = Math.max(inPanelButtonCount * 50, 200) + "px";
-				String outPanelWidth = Math.max(outPanelButtonCount * 50, 200) + "px";
-				inPanel.setWidth(inPanelWidth);
-				outPanel.setWidth(outPanelWidth);
 				
 			}			
 		});
@@ -118,7 +126,7 @@ public class GoogleWebProject implements EntryPoint {
 				outPanel.add(clicked);
 				user.setStatus("Out");
 				out = new Timestamp(new Date().getTime());
-				user.setTime(timeDiff(in, out));
+				//user.setTime(timeDiff(in, out));
 			}
 			else {
 				clicked.removeFromParent();
@@ -126,10 +134,13 @@ public class GoogleWebProject implements EntryPoint {
 				user.setStatus("In");
 				in = new Timestamp (new Date().getTime());
 			}
-				
+			
+			inPanel = ResizePanel(inPanel);
+			outPanel = ResizePanel(outPanel);
+						
 			sendClickToServer(user);
-		}	
-
+		}
+		
 		private void sendClickToServer(User user) {
 			service.buttonClick(user, new AsyncCallback<Void>() {
 				@Override
@@ -152,5 +163,12 @@ public class GoogleWebProject implements EntryPoint {
 			long currentTime = Long.parseLong(user.getTime()) * 60000;
 			return String.valueOf((diff + currentTime) / 60000);
 		}
+	}
+	
+	public HTMLPanel ResizePanel(HTMLPanel panel){
+		int panelButtonCount = panel.getWidgetCount();
+		String panelWidth = Math.max((panelButtonCount * 50)/200 * 200, 200) + "px";
+		panel.setWidth(panelWidth);
+		return panel;
 	}
 }
