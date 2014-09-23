@@ -66,6 +66,8 @@ public class GoogleWebProject implements EntryPoint {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
+				String[] colors = new String[]{"Yellow","Green","Red", "Blue"};
+				
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
 					
@@ -77,21 +79,27 @@ public class GoogleWebProject implements EntryPoint {
 					//button styling
 					if(Integer.parseInt(user.getTime())<1200){
 						switch (user.getColor()) {
-			            case "Yellow":  button.addStyleName("yellow");;
+			            case "Yellow":  button.addStyleName("yellow");
 			                     break;
-			            case "Green":  button.addStyleName("green");;
+			            case "Green":  button.addStyleName("green");
 			                     break;
-			            case "Red":  button.addStyleName("red");;
+			            case "Red":  button.addStyleName("red");
 			                     break;
-			            default: button.addStyleName("blue");;
+			            case "Blue": button.addStyleName("blue");
+			            		break;
+			            default: button.addStyleName("blue");
+			            		int random = (int )(Math.random() * 4);
+			            		user.setColor(colors[random]);
+			            		button.addStyleName(colors[random].toLowerCase());
 			                     break;
 					}
 		        }
 					
-					if(user.getStatus().equals("In")) {
-						inPanel.add(button);
+					if(user.getStatus().equals("Out")) {
+						outPanel.add(button);
 					}
 					else {
+						user.setStatus("Out");
 						outPanel.add(button);
 					}
 				}
