@@ -40,9 +40,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public void buttonClick(User user) throws IllegalArgumentException {
 		try {
 			Map<String, AttributeValue> key = new HashMap<String, AttributeValue>();
-			key.put("Name", new AttributeValue().withS(user.getName()));
-			key.put("Color", new AttributeValue().withS(user.getColor()));
+			key.put("Name", new AttributeValue().withS(user.getName()));			
 			Map<String, AttributeValueUpdate> update = new HashMap<String, AttributeValueUpdate>();
+			update.put("Color", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getColor())));	
 			update.put("Status", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getStatus())));
 			if(user.getStatus().equals("Out")) {
 				update.put("Time", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getTime())));

@@ -87,8 +87,8 @@ public class GoogleWebProject implements EntryPoint {
 			                     break;
 			            case "Blue": button.addStyleName("blue");
 			            		break;
-			            default: button.addStyleName("blue");
-			            		int random = (int )(Math.random() * 4);
+			            default:
+			            		int random = (int)(Math.random() * 4);
 			            		user.setColor(colors[random]);
 			            		button.addStyleName(colors[random].toLowerCase());
 			                     break;
