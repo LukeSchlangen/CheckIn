@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.abamath.checkin.client.GreetingService;
+import com.abamath.checkin.client.AbamathService;
 import com.abamath.checkin.shared.User;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.PropertiesCredentials;
@@ -26,13 +26,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathService {
 	private static AmazonDynamoDB dynamoDB;
 	private final static String MEMBER_TABLE_NAME = "members-production";
 	private final static String HISTORY_TABLE_NAME = "check-in-times-production";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
-	public GreetingServiceImpl() throws IOException {
+	public AbamathServiceImpl() throws IOException {
 		setupDB();
 	}
 	
@@ -86,7 +86,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	
 	private static void setupDB() throws IOException {
 		
-		AWSCredentials credentials = new PropertiesCredentials(GreetingServiceImpl.class.getResourceAsStream("AWSCredentials.properties"));
+		AWSCredentials credentials = new PropertiesCredentials(AbamathServiceImpl.class.getResourceAsStream("AWSCredentials.properties"));
 		dynamoDB = new AmazonDynamoDBClient(credentials);
 		dynamoDB.setEndpoint(END_POINT);
 	}

@@ -23,9 +23,9 @@ import com.ibm.icu.text.DecimalFormat;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class GoogleWebProject implements EntryPoint {
+public class AbamathCheckinClient implements EntryPoint {
 
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final AbamathServiceAsync service = GWT.create(AbamathService.class);
 	private Panel addPanel;
 	private HTMLPanel outPanel;
 	private HTMLPanel inPanel;

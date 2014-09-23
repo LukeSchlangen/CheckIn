@@ -10,7 +10,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * The client-side stub for the RPC service.
  */
 @RemoteServiceRelativePath("greet")
-public interface GreetingService extends RemoteService {
+public interface AbamathService extends RemoteService {
 	void buttonClick(User user) throws IllegalArgumentException;
 	List<User> getUsers();
 }

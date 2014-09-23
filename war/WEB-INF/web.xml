@@ -7,18 +7,17 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.abamath.checkin.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
+    <servlet-name>abamathServlet</servlet-name>
+    <servlet-class>com.abamath.checkin.server.AbamathServiceImpl</servlet-class>
+  </servlet>  
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
+    <servlet-name>abamathServlet</servlet-name>
     <url-pattern>/googlewebproject/greet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>GoogleWebProject.html</welcome-file>
+    <welcome-file>checkin.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
