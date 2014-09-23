@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ibm.icu.text.DecimalFormat;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -41,11 +42,9 @@ public class GoogleWebProject implements EntryPoint {
 		inPanel.add(new Label("IN"));
 		
 		showButtons();
+		
 	    // Create a Label and an HTML widget.
-	    Label lbl = new Label("This is just text.  It will not be interpreted "
-	      + "as <html>.");
-
-	    HTML html = new HTML("Abamath Check In System", true);
+	    HTML html = new HTML("Abamath Check In System - Production", true);
 
 	    // Add them to the root panel.
 	    VerticalPanel headPanel = new VerticalPanel();
@@ -70,29 +69,30 @@ public class GoogleWebProject implements EntryPoint {
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
 					
-					Button button = new Button("<nameLabel>" + user.getName() + "</nameLabel><br/>" + user.getTime() + " Hours");
+					double displayTime = (double)(Integer.parseInt(user.getTime())/6)/10;
+					Button button = new Button("<nameLabel>" + user.getName() + "</nameLabel><br/>" + displayTime + " Hours");
 					button.addClickHandler(new MyHandler(user));
 					button.setSize("200px", "100px");
 					
 					//button styling
-					switch (user.getColor()) {
-		            case "Yellow":  button.addStyleName("yellow");;
-		                     break;
-		            case "Green":  button.addStyleName("green");;
-		                     break;
-		            case "Red":  button.addStyleName("red");;
-		                     break;
-		            default: button.addStyleName("blue");;
-		                     break;
+					if(Integer.parseInt(user.getTime())<1200){
+						switch (user.getColor()) {
+			            case "Yellow":  button.addStyleName("yellow");;
+			                     break;
+			            case "Green":  button.addStyleName("green");;
+			                     break;
+			            case "Red":  button.addStyleName("red");;
+			                     break;
+			            default: button.addStyleName("blue");;
+			                     break;
+					}
 		        }
 					
 					if(user.getStatus().equals("In")) {
 						inPanel.add(button);
-						//inPanelButtonCount++;
 					}
 					else {
 						outPanel.add(button);
-						//outPanelButtonCount++;
 					}
 				}
 				
@@ -126,7 +126,7 @@ public class GoogleWebProject implements EntryPoint {
 				outPanel.add(clicked);
 				user.setStatus("Out");
 				out = new Timestamp(new Date().getTime());
-				//user.setTime(timeDiff(in, out));
+				user.setTime(timeDiff(in, out));
 			}
 			else {
 				clicked.removeFromParent();

@@ -28,8 +28,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 	private static AmazonDynamoDB dynamoDB;
-	private final static String MEMBER_TABLE_NAME = "Members";
-	private final static String HISTORY_TABLE_NAME = "check-in-times";
+	private final static String MEMBER_TABLE_NAME = "members-production";
+	private final static String HISTORY_TABLE_NAME = "check-in-times-production";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
 	public GreetingServiceImpl() throws IOException {
