@@ -1,0 +1,3 @@
+# Module checkin
+# RPC service class, partial path of RPC policy file
+com.abamath.checkin.client.AbamathService, BB2ED8E02311700B3BC2FE169CBE186F.gwt.rpc
