@@ -1,2 +1,0 @@
-serviceClass: com.abamath.checkin.client.AbamathService
-path: BB2ED8E02311700B3BC2FE169CBE186F.gwt.rpc

@@ -12,7 +12,7 @@
   </servlet>  
   <servlet-mapping>
     <servlet-name>abamathServlet</servlet-name>
-    <url-pattern>/googlewebproject/greet</url-pattern>
+    <url-pattern>/checkin/abamathServlet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
