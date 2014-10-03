@@ -5,10 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.abamath.checkin.shared.User;
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -18,23 +17,29 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.ibm.icu.text.DecimalFormat;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
-public class AbamathCheckinClient implements EntryPoint {
+public class AbamathCheckinClient implements AbamathClient {
 
-	private final AbamathServiceAsync service = GWT.create(AbamathService.class);
-	private Panel addPanel;
+	private AbamathServiceAsync service;
+	
+	private Panel returnPanel;
 	private HTMLPanel outPanel;
 	private HTMLPanel inPanel;
-
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
-		addPanel = new HorizontalPanel();
+	
+	public AbamathCheckinClient(AbamathServiceAsync service) {
+		this.service = service;
+		setupPanelForRoot();
+	}
+	
+	@Override
+	public Panel getPanelForRoot() {
+		History.newItem("home");
+		return returnPanel;
+	}
+	
+	@Override
+	public void setupPanelForRoot() {
+		returnPanel = new HorizontalPanel();
 		outPanel = new HTMLPanel("");
 		inPanel = new HTMLPanel("");
 		
@@ -50,9 +55,8 @@ public class AbamathCheckinClient implements EntryPoint {
 	    VerticalPanel headPanel = new VerticalPanel();
 	    headPanel.add(html);
 	    RootPanel.get().add(headPanel);
-		addPanel.add(outPanel);
-		addPanel.add(inPanel);
-		RootPanel.get().add(addPanel);
+	    returnPanel.add(outPanel);
+	    returnPanel.add(inPanel);
 	}
 	
 	private void showButtons() {
@@ -109,12 +113,19 @@ public class AbamathCheckinClient implements EntryPoint {
 				inPanel.addStyleName("inPanel");
 				outPanel.addStyleName("outPanel");
 				
-				inPanel = ResizePanel(inPanel);
-				outPanel = ResizePanel(outPanel);
+				inPanel = resizePanel(inPanel);
+				outPanel = resizePanel(outPanel);
 
 				
 			}			
 		});
+	}
+	
+	private HTMLPanel resizePanel(HTMLPanel panel){
+		int panelButtonCount = panel.getWidgetCount();
+		String panelWidth = Math.max((panelButtonCount * 50)/200 * 200, 200) + "px";
+		panel.setWidth(panelWidth);
+		return panel;
 	}
 	
 	private class MyHandler implements ClickHandler {
@@ -143,8 +154,8 @@ public class AbamathCheckinClient implements EntryPoint {
 				in = new Timestamp (new Date().getTime());
 			}
 			
-			inPanel = ResizePanel(inPanel);
-			outPanel = ResizePanel(outPanel);
+			inPanel = resizePanel(inPanel);
+			outPanel = resizePanel(outPanel);
 						
 			sendClickToServer(user);
 		}
@@ -171,12 +182,5 @@ public class AbamathCheckinClient implements EntryPoint {
 			long currentTime = Long.parseLong(user.getTime()) * 60000;
 			return String.valueOf((diff + currentTime) / 60000);
 		}
-	}
-	
-	public HTMLPanel ResizePanel(HTMLPanel panel){
-		int panelButtonCount = panel.getWidgetCount();
-		String panelWidth = Math.max((panelButtonCount * 50)/200 * 200, 200) + "px";
-		panel.setWidth(panelWidth);
-		return panel;
 	}
 }

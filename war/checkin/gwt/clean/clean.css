@@ -61,8 +61,10 @@ select {
   cursor: pointer;
   cursor: hand;
   font-size:small;
-  border:1px solid #fff;
+  background: url("images/hborder.png") repeat-x 0px -2077px;
+  border:1px solid #bbb;
   border-bottom: 1px solid #a0a0a0;
+  border-radius: 3px;
  -moz-border-radius: 3px;
 }
 .gwt-Button:active {
@@ -1262,37 +1264,4 @@ td.datePickerYear {
 .gwt-SplitLayoutPanel-VDragger {
   background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
   cursor: row-resize;
-}
-
-.htmlPanel {
-	border:solid white;
-	border-radius: 2px;
-	margin: 5px;
-}
-
-.inPanel {
-	position: absolute;
-    right: 0px;
-}
-
-nameLabel {
-	font-size: 30px;
-	padding: 0px;
-	margin: 0px;
-}
-
-.red{
-	background-color: #FD4D4E;
-}
-
-.yellow{
-	background-color: #FFD250;
-}
-
-.green{
-	background-color: #4DC681;
-}
-
-.blue{
-	background-color: #4DC8F5;
 }

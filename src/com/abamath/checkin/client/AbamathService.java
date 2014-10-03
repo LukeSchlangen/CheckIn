@@ -11,6 +11,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("abamathServlet")
 public interface AbamathService extends RemoteService {
+	
 	void buttonClick(User user) throws IllegalArgumentException;
+	
 	List<User> getUsers();
+	
+	boolean authenticate(String username, String password);
 }

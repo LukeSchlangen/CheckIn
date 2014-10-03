@@ -30,6 +30,7 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 	private static AmazonDynamoDB dynamoDB;
 	private final static String MEMBER_TABLE_NAME = "members-production";
 	private final static String HISTORY_TABLE_NAME = "check-in-times-production";
+	private final static String AUTHENTICATION_TABLE_NAME = "";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
 	public AbamathServiceImpl() throws IOException {
@@ -82,6 +83,12 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 		}
 					
 		return userList;		
+	}
+	
+	@Override
+	public boolean authenticate(String username, String password) {
+				
+		return true;
 	}
 	
 	private static void setupDB() throws IOException {
