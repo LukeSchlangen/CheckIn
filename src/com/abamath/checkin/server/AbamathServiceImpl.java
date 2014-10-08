@@ -16,6 +16,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
+import com.amazonaws.services.dynamodbv2.model.GetItemRequest;
+import com.amazonaws.services.dynamodbv2.model.GetItemResult;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
@@ -30,7 +32,7 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 	private static AmazonDynamoDB dynamoDB;
 	private final static String MEMBER_TABLE_NAME = "members-production";
 	private final static String HISTORY_TABLE_NAME = "check-in-times-production";
-	private final static String AUTHENTICATION_TABLE_NAME = "";
+	private final static String AUTHENTICATION_TABLE_NAME = "Authentication";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
 	public AbamathServiceImpl() throws IOException {
@@ -86,9 +88,33 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 	}
 	
 	@Override
-	public boolean authenticate(String username, String password) {
+	public boolean createAccount(String username, String password) {
 				
 		return true;
+	}
+	
+	@Override
+	public boolean authenticate(String username, String password) {
+		if(password.isEmpty()) {
+			return false;
+		}
+		Map<String, AttributeValue> key = new HashMap<String, AttributeValue>();
+		key.put("Username", new AttributeValue().withS(username));
+		key.put("Password", new AttributeValue().withS(password));
+		GetItemRequest getRequest = new GetItemRequest().withTableName(AUTHENTICATION_TABLE_NAME).withKey(key);
+		GetItemResult getResult = dynamoDB.getItem(getRequest);
+		if(getResult.getItem() == null) {
+			//username doesn't exist in the db
+			return false;
+		}
+		else {
+			if(getResult.getItem().get("Password").getS().equals(password)) {
+				//if user exists and passwords match
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	private static void setupDB() throws IOException {
@@ -97,5 +123,4 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 		dynamoDB = new AmazonDynamoDBClient(credentials);
 		dynamoDB.setEndpoint(END_POINT);
 	}
-	
 }

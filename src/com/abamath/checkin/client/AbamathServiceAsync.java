@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface AbamathServiceAsync {
 	void buttonClick(User user, AsyncCallback<Void> asyncCallback);
 	void getUsers(AsyncCallback<List<User>> asyncCallback);
-	void authenticate(String username, String password,
+	void createAccount(String username, String password,
 			AsyncCallback<Boolean> callback);
+	void authenticate(String username, String password, AsyncCallback<Boolean> callback);
 }

@@ -40,9 +40,6 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 		else {
 			RootPanel.get().add(authClient.getPanelForRoot());
 		}
-		
-	
-		
 	}
 	
 	private void clear() {
