@@ -30,8 +30,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathService {
 	private static AmazonDynamoDB dynamoDB;
-	private final static String MEMBER_TABLE_NAME = "members-production";
-	private final static String HISTORY_TABLE_NAME = "check-in-times-production";
+	private final static String MEMBER_TABLE_NAME = "Members";
+	private final static String HISTORY_TABLE_NAME = "check-in-times";
 	private final static String AUTHENTICATION_TABLE_NAME = "Authentication";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	
