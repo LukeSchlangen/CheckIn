@@ -89,7 +89,19 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements AbamathS
 	
 	@Override
 	public boolean createAccount(String username, String password) {
-				
+		if(username.equals("") || password.equals("")) {
+			return false;
+		}
+		
+		HashMap<String, AttributeValue> key = new HashMap<String, AttributeValue>();
+		key.put("Username", new AttributeValue().withS(username));
+		key.put("Password", new AttributeValue().withS(password));
+		key.put("Salt", new AttributeValue().withS(password));
+		PutItemRequest putRequest = new PutItemRequest()
+			.withTableName(AUTHENTICATION_TABLE_NAME)
+			.withItem(key);
+		dynamoDB.putItem(putRequest);
+		
 		return true;
 	}
 	

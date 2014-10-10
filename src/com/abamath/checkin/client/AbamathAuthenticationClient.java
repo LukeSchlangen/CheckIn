@@ -66,20 +66,21 @@ public class AbamathAuthenticationClient implements AbamathClient {
 					@Override
 					public void onFailure(Throwable caught) {
 						//hooray for lack of error handling...
-						//maybe implement a logging feature?						
+						//maybe implement a logging feature?
+						createEmail.setText("ERROR");
 					}
 
 					@Override
 					public void onSuccess(Boolean result) {
 						if(result) {
-							
-						}
-						else {
 							createEmail.setText("");
 							createPassword.setText("");
 						}
-					}
-					
+						else {
+							createEmail.setText("BAD NAME");
+							createPassword.setText("");
+						}
+					}					
 				});			
 			}			
 		});
