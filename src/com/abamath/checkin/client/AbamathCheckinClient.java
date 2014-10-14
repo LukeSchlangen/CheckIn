@@ -43,18 +43,27 @@ public class AbamathCheckinClient implements AbamathClient {
 		outPanel = new HTMLPanel("");
 		inPanel = new HTMLPanel("");
 		
-		outPanel.add(new Label("OUT"));
-		inPanel.add(new Label("IN"));
+		outPanel.addStyleName("panel");
+		inPanel.addStyleName("panel");
+		
+		Label outHeader = new Label("OUT");
+		Label inHeader = new Label("IN");
+		
+		outHeader.addStyleName("panel-heading");
+		inHeader.addStyleName("panel-heading");
+		
+		outPanel.add(outHeader);
+		inPanel.add(inHeader);
 		
 		showButtons();
 		
 	    // Create a Label and an HTML widget.
-	    HTML html = new HTML("Abamath Check In System - Production", true);
-
-	    // Add them to the root panel.
-	    VerticalPanel headPanel = new VerticalPanel();
-	    headPanel.add(html);
-	    RootPanel.get().add(headPanel);
+//	    HTML html = new HTML("Abamath Check In System - Production", true);
+//
+//	    // Add them to the root panel.
+//	    VerticalPanel headPanel = new VerticalPanel();
+//	    headPanel.add(html);
+//	    RootPanel.get().add(headPanel);
 	    returnPanel.add(outPanel);
 	    returnPanel.add(inPanel);
 	}
@@ -76,11 +85,18 @@ public class AbamathCheckinClient implements AbamathClient {
 					User user = result.get(i);
 					
 					double displayTime = (double)(Integer.parseInt(user.getTime())/6)/10;
-					Button button = new Button("<nameLabel>" + user.getName() + "</nameLabel><br/>" + displayTime + " Hours");
+					Button button = new Button("<namelabel>" + user.getName() + "</namelabel><br/>" + displayTime + " Hours");
 					button.addClickHandler(new MyHandler(user));
-					button.setSize("200px", "100px");
 					
 					//button styling
+					button.addStyleName("btn-default");
+					button.addStyleName("col-xs-12");
+					button.addStyleName("col-sm-6");
+					button.addStyleName("col-md-4");
+					button.addStyleName("col-lg-3");
+					button.addStyleName("col-xl-2");
+					
+					
 					if(Integer.parseInt(user.getTime())<1200){
 						switch (user.getColor()) {
 			            case "Yellow":  button.addStyleName("yellow");
@@ -108,24 +124,13 @@ public class AbamathCheckinClient implements AbamathClient {
 					}
 				}
 				
-				inPanel.addStyleName("htmlPanel");
-				outPanel.addStyleName("htmlPanel");
+				inPanel.addStyleName("panel");
+				outPanel.addStyleName("panel");
 				inPanel.addStyleName("inPanel");
 				outPanel.addStyleName("outPanel");
 				
-				inPanel = resizePanel(inPanel);
-				outPanel = resizePanel(outPanel);
-
-				
 			}			
 		});
-	}
-	
-	private HTMLPanel resizePanel(HTMLPanel panel){
-		int panelButtonCount = panel.getWidgetCount();
-		String panelWidth = Math.max((panelButtonCount * 50)/200 * 200, 200) + "px";
-		panel.setWidth(panelWidth);
-		return panel;
 	}
 	
 	private class MyHandler implements ClickHandler {
@@ -153,9 +158,6 @@ public class AbamathCheckinClient implements AbamathClient {
 				user.setStatus("In");
 				in = new Timestamp (new Date().getTime());
 			}
-			
-			inPanel = resizePanel(inPanel);
-			outPanel = resizePanel(outPanel);
 						
 			sendClickToServer(user);
 		}
