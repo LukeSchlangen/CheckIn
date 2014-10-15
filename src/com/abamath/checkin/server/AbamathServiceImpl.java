@@ -59,13 +59,10 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 			Map<String, AttributeValue> key = new HashMap<String, AttributeValue>();
 			key.put("Name", new AttributeValue().withS(user.getName()));
 			Map<String, AttributeValueUpdate> update = new HashMap<String, AttributeValueUpdate>();
-			update.put("Color", new AttributeValueUpdate()
-					.withValue(new AttributeValue().withS(user.getColor())));
-			update.put("Status", new AttributeValueUpdate()
-					.withValue(new AttributeValue().withS(user.getStatus())));
+			key.put("Color", new AttributeValue().withS(user.getColor()));
+			update.put("Status", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getStatus())));
 			if (user.getStatus().equals("Out")) {
-				update.put("Time", new AttributeValueUpdate()
-						.withValue(new AttributeValue().withS(user.getTime())));
+				update.put("Time", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getTime())));
 			}
 			UpdateItemRequest updateRequest = new UpdateItemRequest()
 					.withTableName(MEMBER_TABLE_NAME).withKey(key)
