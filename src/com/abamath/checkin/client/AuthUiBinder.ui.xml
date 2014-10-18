@@ -1,0 +1,95 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel>
+	    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">CHECKINSY</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#signup">Sign Up</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#rsvp">Sign In</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#rsvp">Learn More</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    
+    
+    <!-- About Section -->
+    <section id="schedule" class="container content-section text-center full-screen">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+                <h2>When &amp; Where</h2>
+                <p>Some Location</p>
+                <a href="https://www.google.com/maps/place/Hilton+Madison+Monona+Terrace/@43.9712147,-89.8528877,8z/data=!4m2!3m1!1s0x0:0xeb58e52650ab63e7" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-map-marker fa-fw"></i> Google Maps Location</a>
+
+            </div>
+        </div>
+    </section>
+    
+    
+      <div>
+    Hello, <span ui:field='nameSpan'/>.
+    <p>Auth PAnel Below this</p>
+    <g:VerticalPanel ui:field='loginPanel'/>
+    <g:VerticalPanel ui:field='createPanel'/>
+    
+    
+    
+    
+    
+    
+    <!-- Bootstrap Modal Attempt, not working because of javascript issues... I'm guessing -->
+    
+    
+    <!-- Button trigger modal -->
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	  Launch demo modal
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+	        ...
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
+  </div>
+    
+	</g:HTMLPanel>
+</ui:UiBinder> 

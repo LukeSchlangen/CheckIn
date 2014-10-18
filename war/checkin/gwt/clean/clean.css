@@ -2736,8 +2736,8 @@ select[multiple].input-lg {
       -ms-user-select: none;
           user-select: none;
   background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border: 1px solid White;
+  border-radius: 0px;
 }
 .btn:focus,
 .btn:active:focus,
@@ -2770,8 +2770,8 @@ fieldset[disabled] .gwt-Button {
 }
 .btn-default {
   color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+  background-color: #eee;
+  border-color: #fff;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -6207,29 +6207,29 @@ namelabel{
 }
 
 .red{
-	background-color: #FD4D4E;
+	background-color: #FF5B5B;
 }
 
 .yellow{
-	background-color: #FFD250;
+	background-color: #E9C24E;
 }
 
 .green{
-	background-color: #4DC681;
+	background-color: #59D999;
 }
 
 .blue{
-	background-color: #4DC8F5;
+	background-color: #00C0E2;
 }
 
 .outPanel {
 	width: 45vw;
-	background: #2DA8D5;
+	background: #F0F0F0;
 }
 
 .inPanel {
 	width: 45vw;
-	background: #2DA8D5;
+	background: #F0F0F0;
 	position: absolute;
     right: 0px;
 }

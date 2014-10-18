@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -34,12 +35,21 @@ public class AbamathAuthenticationClient implements AbamathClient {
 	private Button loginSubmit;
 	private Button loginCancel;
 	
+	//ui elements
+	private AuthUiBinder authUi = new AuthUiBinder();
+
+	
 	private static final String CREATE_LABEL_TEXT = "Create an account";
 	
 	public AbamathAuthenticationClient(AbamathServiceAsync service, AbamathCheckinEntryPoint entryPoint) {
 		this.service = service;
 		this.entryPoint = entryPoint;
 		setupPanelForRoot();
+		authUi.setName("World");
+		RootPanel.get().add(authUi);
+
+		authUi.addLoginPanel(loginPanel);
+		authUi.addCreatePanel(authPanel);
 	}
 	
 	@Override
@@ -84,20 +94,20 @@ public class AbamathAuthenticationClient implements AbamathClient {
 				});			
 			}			
 		});
-		
-		engageLogin = new Button("Login");
-		engageLogin.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				loginBox.show();				
-			}			
-		});
+//		
+//		engageLogin = new Button("Login");
+//		engageLogin.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				loginBox.show();				
+//			}			
+//		});
 		
 		authPanel.add(createText);
 		authPanel.add(createEmail);
 		authPanel.add(createPassword);
 		authPanel.add(createSubmit);
-		authPanel.add(engageLogin);
+//		authPanel.add(engageLogin);
 	}
 	
 	private void setupLoginBox() {
@@ -106,7 +116,7 @@ public class AbamathAuthenticationClient implements AbamathClient {
 		loginEmail = new TextBox();
 		loginPassword = new PasswordTextBox();
 		loginSubmit = new Button("Login");
-		loginCancel = new Button("Cancel");
+//		loginCancel = new Button("Cancel");
 		loginSubmit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -134,21 +144,20 @@ public class AbamathAuthenticationClient implements AbamathClient {
 			}
 			
 		});
-		loginCancel.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				loginEmail.setText("");
-				loginPassword.setText("");
-				loginBox.hide();
-			}
-			
-		});
+//		loginCancel.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				loginEmail.setText("");
+//				loginPassword.setText("");
+//				loginBox.hide();
+//			}
+//			
+//		});
 			
 		loginPanel.add(loginEmail);
 		loginPanel.add(loginPassword);
 		loginPanel.add(loginSubmit);
-		loginPanel.add(loginCancel);
+//		loginPanel.add(loginCancel);
 		loginBox.add(loginPanel);
-		loginBox.center();
 	}
 }
