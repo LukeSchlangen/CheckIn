@@ -1,0 +1,12 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <g:HTMLPanel>    
+        <g:VerticalPanel ui:field="homePanel">
+            <g:Label ui:field="welcomeLabel"/>
+            <g:Button ui:field="myCheckIn" text="Go To Check In!"/>
+            <g:Label ui:field ="logoutLabel" text="To log off, press here."/>
+            <g:Button ui:field="logoutButton" text="Log off"/>
+        </g:VerticalPanel>    
+    </g:HTMLPanel>
+</ui:UiBinder> 

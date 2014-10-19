@@ -1,37 +1,38 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<g:HTMLPanel>
+	<g:HTMLPanel>    
 	    <g:VerticalPanel ui:field="authPanel">
-	       <g:VerticalPanel ui:field="createPanel">
-	           <g:Label text="New user? Create account!"/>
-	           <g:HorizontalPanel>
-	               <g:Label text="Email"/>
-	               <g:TextBox ui:field="createEmail"/>
-	           </g:HorizontalPanel>
-	           <g:HorizontalPanel>
-	               <g:Label text="Password"/>
-	               <g:PasswordTextBox ui:field="createPassword"/>
-	           </g:HorizontalPanel>
-	           <g:HorizontalPanel>
-	               <g:Button ui:field="createSubmit" text="Create"/>
-	           </g:HorizontalPanel>
-	       </g:VerticalPanel>
-	    
-	       <g:VerticalPanel ui:field="loginPanel">
-	           <g:Label text="Existing user? Login!"/>
-	           <g:HorizontalPanel>
-	               <g:Label text="Email"/>
-	               <g:TextBox ui:field="loginEmail"/>
-	           </g:HorizontalPanel>    
-               <g:HorizontalPanel>
-                   <g:Label text="Password"/>
-                   <g:PasswordTextBox ui:field="loginPassword"/>
-               </g:HorizontalPanel>
-               <g:HorizontalPanel>
-                   <g:Button ui:field="loginSubmit" text="Login"/>
-               </g:HorizontalPanel>
-           </g:VerticalPanel>
-       </g:VerticalPanel>    	    
+	        <g:VerticalPanel ui:field="createPanel">
+	            <g:Label text="New user? Create account!"/>
+	            <g:HorizontalPanel>
+	                <g:Label text="Email"/>
+	                <g:TextBox ui:field="createEmail"/>
+	            </g:HorizontalPanel>
+	            <g:HorizontalPanel>
+	                <g:Label text="Password"/>
+	                <g:PasswordTextBox ui:field="createPassword"/>
+	            </g:HorizontalPanel>
+	            <g:HorizontalPanel>
+	                <g:Button ui:field="createSubmit" text="Create"/>
+	            </g:HorizontalPanel>
+	        </g:VerticalPanel>
+	       
+	        <g:VerticalPanel ui:field="loginPanel">
+	            <g:Label text="Existing user? Login!"/>
+	            <g:HorizontalPanel>
+	                <g:Label text="Email"/>
+	                <g:TextBox ui:field="loginEmail"/>
+	            </g:HorizontalPanel>    
+                <g:HorizontalPanel>
+                    <g:Label text="Password"/>
+                    <g:PasswordTextBox ui:field="loginPassword"/>
+                </g:HorizontalPanel>
+                <g:HorizontalPanel>
+                    <g:Button ui:field="loginSubmit" text="Login"/>
+                </g:HorizontalPanel>
+            </g:VerticalPanel>
+           
+       </g:VerticalPanel>  	    
 	</g:HTMLPanel>
 </ui:UiBinder> 

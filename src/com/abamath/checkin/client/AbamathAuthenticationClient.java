@@ -65,7 +65,8 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 	@Override
 	public void setupPanelForRoot() {
 		setupCreateBox();
-		setupLoginBox();	
+		setupLoginBox();
+		addCss();
 	}
 	
 	private void setupCreateBox() {
@@ -112,18 +113,23 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 					public void onSuccess(Boolean result) {
 						if(result) {
 							//auth succeeded
-							entryPoint.setAuthenticationStatus(true);
+							entryPoint.setAuthenticationStatus(true, loginEmail.getText());
+							loginEmail.setText("");
+							loginPassword.setText("");
 						}
 						else {
 							//bad auth attempt
 							loginEmail.setText("");
 							loginPassword.setText("");
-						}
-						
+						}						
 					}					
 				});				
-			}
-			
+			}			
 		});
+	}
+	
+	@Override
+	public void addCss() {
+		//Add any css elements here
 	}
 }

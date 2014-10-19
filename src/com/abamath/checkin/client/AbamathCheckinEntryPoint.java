@@ -14,6 +14,9 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	private AbamathCheckinClient checkinClient;
 	private AbamathAuthenticationClient authClient;
 	private AbamathAdminClient adminClient;
+	private AbamathHomeClient homeClient;
+	
+	private String adminUser;
 	
 	private boolean isAuthenticated = false;
 
@@ -22,9 +25,10 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		//Set up the clients
-		checkinClient = new AbamathCheckinClient(service);
+		checkinClient = new AbamathCheckinClient(service, this);
 		authClient = new AbamathAuthenticationClient(service, this);
-		adminClient = new AbamathAdminClient(service);
+		adminClient = new AbamathAdminClient(service, this);
+		homeClient = new AbamathHomeClient(service, this);
 		
 		//Verify a browser cookie to see
 		//if our user needs to authenticate
@@ -46,18 +50,33 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 		RootPanel.get().clear();
 	}
 	
-	public void setAuthenticationStatus(boolean status) {
-		isAuthenticated = status;
+	protected void setAuthenticationStatus(boolean isAuthenticated, String adminUser) {
+		this.isAuthenticated = isAuthenticated;
+		this.adminUser = adminUser;
 		
-		if(status == true) {
+		if(isAuthenticated == true) {
 			clear();
-			RootPanel.get().add(checkinClient.getPanelForRoot());
+			RootPanel.get().add(homeClient.getPanelForRoot());
 			History.newItem("home");
 		}
 	}
 	
-	public boolean getAuthenticationStatus() {
+	protected boolean getAuthenticationStatus() {
 
 		return true;
+	}
+	
+	protected void setHomeStatus(String status) {
+		clear();
+		if(status.equals("CHECKIN_SYSTEM")) {
+			RootPanel.get().add(checkinClient.getPanelForRoot());
+		}
+		else if(status.equals("AUTHENTICATION")) {
+			RootPanel.get().add(authClient.getPanelForRoot());
+		}		
+	}
+	
+	protected String getAdminUser() {
+		return adminUser;
 	}
 }

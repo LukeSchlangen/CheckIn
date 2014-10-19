@@ -10,23 +10,24 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AbamathCheckinClient implements AbamathClient {
 
 	private AbamathServiceAsync service;
 	
+	private static final String[] colors = new String[]{"Yellow","Green","Red", "Blue"};
+	
 	private Panel returnPanel;
 	private HTMLPanel outPanel;
 	private HTMLPanel inPanel;
+	private Label outHeader;
+	private Label inHeader;
 	
-	public AbamathCheckinClient(AbamathServiceAsync service) {
+	public AbamathCheckinClient(AbamathServiceAsync service, AbamathCheckinEntryPoint entryPoint) {
 		this.service = service;
 		setupPanelForRoot();
 	}
@@ -43,27 +44,15 @@ public class AbamathCheckinClient implements AbamathClient {
 		outPanel = new HTMLPanel("");
 		inPanel = new HTMLPanel("");
 		
-		outPanel.addStyleName("panel");
-		inPanel.addStyleName("panel");
-		
-		Label outHeader = new Label("OUT");
-		Label inHeader = new Label("IN");
-		
-		outHeader.addStyleName("panel-heading");
-		inHeader.addStyleName("panel-heading");
+		outHeader = new Label("OUT");
+		inHeader = new Label("IN");
 		
 		outPanel.add(outHeader);
 		inPanel.add(inHeader);
 		
 		showButtons();
-		
-	    // Create a Label and an HTML widget.
-//	    HTML html = new HTML("Abamath Check In System - Production", true);
-//
-//	    // Add them to the root panel.
-//	    VerticalPanel headPanel = new VerticalPanel();
-//	    headPanel.add(html);
-//	    RootPanel.get().add(headPanel);
+		addCss();
+
 	    returnPanel.add(outPanel);
 	    returnPanel.add(inPanel);
 	}
@@ -75,11 +64,10 @@ public class AbamathCheckinClient implements AbamathClient {
 				//probably do some error handling here
 				//
 				//
-				//...eventually			
+				//...eventually
 			}
 			@Override
 			public void onSuccess(List<User> result) {
-				String[] colors = new String[]{"Yellow","Green","Red", "Blue"};
 				
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
@@ -88,32 +76,7 @@ public class AbamathCheckinClient implements AbamathClient {
 					Button button = new Button("<namelabel>" + user.getName() + "</namelabel><br/>" + displayTime + " Hours");
 					button.addClickHandler(new MyHandler(user));
 					
-					//button styling
-					button.addStyleName("btn-default");
-					button.addStyleName("col-xs-12");
-					button.addStyleName("col-sm-6");
-					button.addStyleName("col-md-4");
-					button.addStyleName("col-lg-3");
-					button.addStyleName("col-xl-2");
-					
-					
-					if(Integer.parseInt(user.getTime())<1200){
-						switch (user.getColor()) {
-			            case "Yellow":  button.addStyleName("yellow");
-			                     break;
-			            case "Green":  button.addStyleName("green");
-			                     break;
-			            case "Red":  button.addStyleName("red");
-			                     break;
-			            case "Blue": button.addStyleName("blue");
-			            		break;
-			            default:
-			            		int random = (int)(Math.random() * 4);
-			            		user.setColor(colors[random]);
-			            		button.addStyleName(colors[random].toLowerCase());
-			                     break;
-					}
-		        }
+					addButtonCss(button, user);
 					
 					if(user.getStatus().equals("Out")) {
 						outPanel.add(button);
@@ -122,15 +85,48 @@ public class AbamathCheckinClient implements AbamathClient {
 						user.setStatus("Out");
 						outPanel.add(button);
 					}
-				}
-				
-				inPanel.addStyleName("panel");
-				outPanel.addStyleName("panel");
-				inPanel.addStyleName("inPanel");
-				outPanel.addStyleName("outPanel");
-				
+				}				
 			}			
 		});
+	}
+	
+	@Override
+	public void addCss() {
+		outPanel.addStyleName("panel");
+		inPanel.addStyleName("panel");
+		outPanel.addStyleName("outPanel");
+		inPanel.addStyleName("inPanel");
+		outHeader.addStyleName("panel-heading");
+		inHeader.addStyleName("panel-heading");		
+	}
+	
+	public void addButtonCss(Button button, User user) {
+		button.addStyleName("btn-default");
+		button.addStyleName("col-xs-12");
+		button.addStyleName("col-sm-6");
+		button.addStyleName("col-md-4");
+		button.addStyleName("col-lg-3");
+		button.addStyleName("col-xl-2");
+		
+		
+		if(Integer.parseInt(user.getTime())<1200){
+			switch (user.getColor()) {
+            case "Yellow":  button.addStyleName("yellow");
+                     break;
+            case "Green":  button.addStyleName("green");
+                     break;
+            case "Red":  button.addStyleName("red");
+                     break;
+            case "Blue": button.addStyleName("blue");
+            		break;
+            default:
+            		int random = (int)(Math.random() * 4);
+            		user.setColor(colors[random]);
+            		button.addStyleName(colors[random].toLowerCase());
+                     break;
+		}
+    }
+		
 	}
 	
 	private class MyHandler implements ClickHandler {
