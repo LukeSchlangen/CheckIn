@@ -131,5 +131,9 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 	@Override
 	public void addCss() {
 		//Add any css elements here
+		createEmail.getElement().setPropertyString("placeholder", "Email");
+		createPassword.getElement().setPropertyString("placeholder", "Password");
+		loginEmail.getElement().setPropertyString("placeholder", "Email");
+		loginPassword.getElement().setPropertyString("placeholder", "Password");
 	}
 }
