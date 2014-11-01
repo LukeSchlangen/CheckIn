@@ -14,7 +14,7 @@ public interface AbamathService extends RemoteService {
 	
 	void buttonClick(User user) throws IllegalArgumentException;
 	
-	List<User> getUsers();
+	List<User> getUsers(String adminUser);
 	
 	boolean createAccount(String username, String password);
 	

@@ -3,46 +3,51 @@ package com.abamath.checkin.client;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
+import com.abamath.checkin.client.AbamathCheckinEntryPoint.Status;
 import com.abamath.checkin.shared.User;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AbamathCheckinClient implements AbamathClient {
 
 	private AbamathServiceAsync service;
+	private AbamathCheckinEntryPoint entryPoint;
 
 	private static final String[] colors = new String[]{"Yellow","Green","Red", "Blue"};
 
-	private Panel returnPanel;
+	private Panel checkinPanel;
+	private Panel returnHomePanel;
 	private HTMLPanel outPanel;
 	private HTMLPanel inPanel;
 	private Label outHeader;
 	private Label inHeader;
+	private Button returnHome;
 
 	public AbamathCheckinClient(AbamathServiceAsync service, AbamathCheckinEntryPoint entryPoint) {
 		this.service = service;
+		this.entryPoint = entryPoint;
 		setupPanelForRoot();
 	}
 
 	@Override
 	public Panel getPanelForRoot() {
 		History.newItem("home");
-		return returnPanel;
+		return returnHomePanel;
 	}
 
 	@Override
 	public void setupPanelForRoot() {
-		returnPanel = new HorizontalPanel();
+		returnHomePanel = new VerticalPanel();
+		checkinPanel = new HorizontalPanel();
 		outPanel = new HTMLPanel("");
 		inPanel = new HTMLPanel("");
 
@@ -55,12 +60,27 @@ public class AbamathCheckinClient implements AbamathClient {
 		showButtons();
 		addCss();
 
-		returnPanel.add(outPanel);
-		returnPanel.add(inPanel);
+		checkinPanel.add(outPanel);
+		checkinPanel.add(inPanel);
+		
+		returnHome = new Button("Return Home");
+		returnHome.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				entryPoint.setCheckinStatus(Status.HOME);
+				
+			}
+			
+		});
+		
+		returnHomePanel.add(returnHome);
+		returnHomePanel.add(checkinPanel);
 	}
 
 	private void showButtons() {
-		service.getUsers(new AsyncCallback<List<User>>() {
+		String adminUser = entryPoint.getAdminUser();
+		service.getUsers(adminUser, new AsyncCallback<List<User>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				//probably do some error handling here
@@ -70,14 +90,8 @@ public class AbamathCheckinClient implements AbamathClient {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
-
-
-
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
-
-
-
 					String displayTime =  stringTimeFormatter(user);
 					Button button = new Button("<namelabel>" + user.getName() + "</namelabel><br/>" + displayTime );
 					button.addClickHandler(new MyHandler(user));
@@ -96,7 +110,6 @@ public class AbamathCheckinClient implements AbamathClient {
 	}
 	private String stringTimeFormatter(User user)
 	{
-
 		String result = "";
 		int hours = ((Integer.parseInt(user.getTime())/60)) ;
 		int minutes = ((Integer.parseInt(user.getTime())%60));
@@ -157,14 +170,12 @@ public class AbamathCheckinClient implements AbamathClient {
 				break;
 			}
 		}
-
 	}
 
 	private class MyHandler implements ClickHandler {
 		private User user;
 		private Timestamp in;
 		private Timestamp out;
-
 
 		public MyHandler(User user) {
 			this.user = user;
@@ -179,7 +190,6 @@ public class AbamathCheckinClient implements AbamathClient {
 				out = new Timestamp(new Date().getTime());
 				user.setTime(timeDiff(in, out));
 				user.stopTimer();
-
 			}
 			else {
 				clicked.removeFromParent();
@@ -192,7 +202,6 @@ public class AbamathCheckinClient implements AbamathClient {
 
 			sendClickToServer(user);
 		}
-
 
 		private void sendClickToServer(User user) {
 			service.buttonClick(user, new AsyncCallback<Void>() {

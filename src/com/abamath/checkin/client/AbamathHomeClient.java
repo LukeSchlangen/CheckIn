@@ -1,6 +1,6 @@
 package com.abamath.checkin.client;
 
-import com.abamath.checkin.client.AbamathAuthenticationClient.AbamathAuthenticationClientUiBinder;
+import com.abamath.checkin.client.AbamathCheckinEntryPoint.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,7 +10,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,11 +27,9 @@ public class AbamathHomeClient extends Composite implements AbamathClient {
 	@UiField
 	protected VerticalPanel homePanel;
 	@UiField
-	protected Label welcomeLabel;
-	@UiField
 	protected Button myCheckIn;
 	@UiField
-	protected Label logoutLabel;
+	protected Button adminButton;
 	@UiField
 	protected Button logoutButton;
 	
@@ -51,22 +48,26 @@ public class AbamathHomeClient extends Composite implements AbamathClient {
 
 	@Override
 	public void setupPanelForRoot() {
-		welcomeLabel.setText("Welcome, " + entryPoint.getAdminUser() + "!");
 		myCheckIn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				entryPoint.setHomeStatus("CHECKIN_SYSTEM");				
-			}
-			
+				entryPoint.setHomeStatus(Status.CHECKIN);				
+			}		
 		});
 		logoutButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				entryPoint.setHomeStatus("AUTHENTICATION");				
-			}
-			
+				entryPoint.setHomeStatus(Status.AUTH);				
+			}			
+		});
+		adminButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				entryPoint.setHomeStatus(Status.ADMIN);
+			}		
 		});
 	}
 

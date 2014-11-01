@@ -83,7 +83,7 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<User> getUsers() {
+	public List<User> getUsers(String adminUser) {
 		List<User> userList = new ArrayList<User>();
 		ScanRequest request = new ScanRequest()
 				.withTableName(MEMBER_TABLE_NAME);

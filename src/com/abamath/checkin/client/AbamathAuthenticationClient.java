@@ -1,5 +1,6 @@
 package com.abamath.checkin.client;
 
+import com.abamath.checkin.client.AbamathCheckinEntryPoint.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -113,7 +114,9 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 					public void onSuccess(Boolean result) {
 						if(result) {
 							//auth succeeded
-							entryPoint.setAuthenticationStatus(true, loginEmail.getText());
+							entryPoint.setAdminUser(loginEmail.getText().toString());
+							entryPoint.setAuthenticationStatus(Status.HOME);
+							System.out.println(entryPoint.getAdminUser());
 							loginEmail.setText("");
 							loginPassword.setText("");
 						}

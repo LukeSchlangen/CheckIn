@@ -18,7 +18,13 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	
 	private String adminUser;
 	
-	private boolean isAuthenticated = false;
+	protected enum Status {
+		HOME,
+		CHECKIN,
+		AUTH,
+		ADMIN
+	}
+	
 
 	/**
 	 * This is the entry point method.
@@ -30,15 +36,11 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 		adminClient = new AbamathAdminClient(service, this);
 		homeClient = new AbamathHomeClient(service, this);
 		
-		//Verify a browser cookie to see
-		//if our user needs to authenticate
-		isAuthenticated = getAuthenticationStatus();
-		
 		//History token logic
-		if(History.getToken().equalsIgnoreCase("home") && isAuthenticated) {
+		if(History.getToken().equalsIgnoreCase("home")) {
 			RootPanel.get().add(checkinClient.getPanelForRoot());
 		}
-		else if(History.getToken().equalsIgnoreCase("admin") && isAuthenticated) {
+		else if(History.getToken().equalsIgnoreCase("admin")) {
 			RootPanel.get().add(adminClient.getPanelForRoot());
 		}
 		else {
@@ -50,32 +52,45 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 		RootPanel.get().clear();
 	}
 	
-	protected void setAuthenticationStatus(boolean isAuthenticated, String adminUser) {
-		this.isAuthenticated = isAuthenticated;
-		this.adminUser = adminUser;
-		
-		if(isAuthenticated == true) {
-			clear();
+	protected void setAuthenticationStatus(Status status) {
+		clear();
+		if(status == Status.HOME) {
 			RootPanel.get().add(homeClient.getPanelForRoot());
 			History.newItem("home");
 		}
 	}
 	
-	protected boolean getAuthenticationStatus() {
-
-		return true;
-	}
-	
-	protected void setHomeStatus(String status) {
+	protected void setHomeStatus(Status status) {
 		clear();
-		if(status.equals("CHECKIN_SYSTEM")) {
+		if(status == Status.CHECKIN) {
 			RootPanel.get().add(checkinClient.getPanelForRoot());
+			History.newItem("checkin");
 		}
-		else if(status.equals("AUTHENTICATION")) {
+		else if(status == Status.AUTH) {
 			RootPanel.get().add(authClient.getPanelForRoot());
-		}		
+			History.newItem("auth");
+		}
+		else if(status == Status.ADMIN) {
+			RootPanel.get().add(adminClient.getPanelForRoot());
+			History.newItem("admin");
+		}
+		else {
+			//log some sort of error message,
+			//as this case shouldn't happen unless
+			//something breaks
+		}
 	}
 	
+	protected void setCheckinStatus(Status status) {
+		clear();
+		if(status == Status.HOME) {
+			RootPanel.get().add(homeClient.getPanelForRoot());
+		}
+	}
+	
+	protected void setAdminUser(String adminUser) {
+		this.adminUser = adminUser;
+	}
 	protected String getAdminUser() {
 		return adminUser;
 	}
