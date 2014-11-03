@@ -7,9 +7,6 @@
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="authPanel">
 			<g:HTMLPanel>
-				<script>
-
-				</script>
 				<!-- Navigation -->
 				<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
 					<div class="container">

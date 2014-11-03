@@ -1,0 +1,2 @@
+serviceClass: com.abamath.checkin.client.AbamathService
+path: D612B572C4E51E6AACFAB57BECA226A2.gwt.rpc

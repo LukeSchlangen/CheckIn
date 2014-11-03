@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AbamathCheckinClient implements AbamathClient {
 
@@ -25,7 +24,6 @@ public class AbamathCheckinClient implements AbamathClient {
 	private static final String[] colors = new String[]{"Yellow","Green","Red", "Blue"};
 
 	private Panel checkinPanel;
-	private Panel returnHomePanel;
 	private HTMLPanel outPanel;
 	private HTMLPanel inPanel;
 	private Label outHeader;
@@ -41,12 +39,11 @@ public class AbamathCheckinClient implements AbamathClient {
 	@Override
 	public Panel getPanelForRoot() {
 		History.newItem("home");
-		return returnHomePanel;
+		return checkinPanel;
 	}
 
 	@Override
 	public void setupPanelForRoot() {
-		returnHomePanel = new VerticalPanel();
 		checkinPanel = new HorizontalPanel();
 		outPanel = new HTMLPanel("");
 		inPanel = new HTMLPanel("");
@@ -61,9 +58,10 @@ public class AbamathCheckinClient implements AbamathClient {
 		addCss();
 
 		checkinPanel.add(outPanel);
-		checkinPanel.add(inPanel);
+
 		
-		returnHome = new Button("Return Home");
+		returnHome = new Button("Home");
+		returnHome.addStyleName("return-home-button");
 		returnHome.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -74,8 +72,9 @@ public class AbamathCheckinClient implements AbamathClient {
 			
 		});
 		
-		returnHomePanel.add(returnHome);
-		returnHomePanel.add(checkinPanel);
+		
+		checkinPanel.add(returnHome);
+		checkinPanel.add(inPanel);
 	}
 
 	private void showButtons() {
@@ -141,7 +140,8 @@ public class AbamathCheckinClient implements AbamathClient {
 		outPanel.addStyleName("outPanel");
 		inPanel.addStyleName("inPanel");
 		outHeader.addStyleName("panel-heading");
-		inHeader.addStyleName("panel-heading");		
+		inHeader.addStyleName("panel-heading");
+		
 	}
 
 	public void addButtonCss(Button button, User user) {
