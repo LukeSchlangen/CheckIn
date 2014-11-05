@@ -2739,6 +2739,7 @@ select[multiple].input-lg {
   background-image: none;
   border: 1px solid White;
   border-radius: 0px;
+  top: 40px;
 }
 .btn:focus,
 .btn:active:focus,
@@ -5009,6 +5010,11 @@ a.list-group-item-danger.active:focus {
   border-bottom: 1px solid transparent;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  position: fixed;
+  top: 0px;
+  z-index: 10;
+  background-color: #cccccc;
+  width: 45vw;
 }
 .panel-heading > .dropdown .dropdown-toggle {
   color: inherit;
