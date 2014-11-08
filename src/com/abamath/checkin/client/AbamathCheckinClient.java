@@ -1,6 +1,7 @@
 package com.abamath.checkin.client;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +90,7 @@ public class AbamathCheckinClient implements AbamathClient {
 			}
 			@Override
 			public void onSuccess(List<User> result) {
+				Collections.sort(result, new User());
 				for(int i = 0; i < result.size(); i++) {
 					User user = result.get(i);
 					String displayTime =  stringTimeFormatter(user);

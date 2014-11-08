@@ -1,11 +1,12 @@
 package com.abamath.checkin.shared;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 
-public class User implements Serializable {
+public class User implements Serializable, Comparator<User> {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -112,5 +113,10 @@ public class User implements Serializable {
 	public void stopTimer()
 	{
 		timerStatus = false;
+	}
+
+	@Override
+	public int compare(User userOne, User userTwo) {		
+		return userOne.getName().compareTo(userTwo.getName());
 	}
 }

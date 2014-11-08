@@ -4,6 +4,8 @@ import com.abamath.checkin.client.AbamathCheckinEntryPoint.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -96,8 +98,7 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 					}					
 				});			
 			}			
-		});
-		
+		});		
 	}
 	
 	private void setupLoginBox() {
