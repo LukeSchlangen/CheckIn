@@ -14,4 +14,5 @@ public interface AbamathServiceAsync {
 	void createAccount(String username, String password,
 			AsyncCallback<Boolean> callback);
 	void authenticate(String username, String password, AsyncCallback<Boolean> callback);
+	void addUser(String username, String color, AsyncCallback<Void> callback);
 }

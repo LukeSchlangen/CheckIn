@@ -117,7 +117,6 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 							//auth succeeded
 							entryPoint.setAdminUser(loginEmail.getText().toString());
 							entryPoint.setAuthenticationStatus(Status.HOME);
-							System.out.println(entryPoint.getAdminUser());
 							loginEmail.setText("");
 							loginPassword.setText("");
 						}

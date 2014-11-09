@@ -36,8 +36,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class AbamathServiceImpl extends RemoteServiceServlet implements
 		AbamathService {
 	private static AmazonDynamoDB dynamoDB;
-	private final static String MEMBER_TABLE_NAME = "Members";
-	private final static String HISTORY_TABLE_NAME = "check-in-times";
+	
+	private String memberTableName;
+	private String historyTableName;
+	
 	private final static String AUTHENTICATION_TABLE_NAME = "Authentication";
 	private final static String END_POINT = "dynamodb.us-west-2.amazonaws.com";
 	private final static String MEMBER_TABLE_PRIMARY_KEY = "Name";
@@ -65,7 +67,7 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 				update.put("Time", new AttributeValueUpdate().withValue(new AttributeValue().withS(user.getTime())));
 			}
 			UpdateItemRequest updateRequest = new UpdateItemRequest()
-					.withTableName(MEMBER_TABLE_NAME).withKey(key)
+					.withTableName(memberTableName).withKey(key)
 					.withAttributeUpdates(update);
 			dynamoDB.updateItem(updateRequest);
 
@@ -73,8 +75,8 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 			key.put("Time", new AttributeValue().withS(new Timestamp(new Date()
 					.getTime()).toString()));
 			key.put("Member", new AttributeValue().withS(user.getName()));
-			PutItemRequest putRequest = new PutItemRequest().withTableName(
-					HISTORY_TABLE_NAME).withItem(key);
+			PutItemRequest putRequest = new PutItemRequest().withTableName(historyTableName)
+					.withItem(key);
 			dynamoDB.putItem(putRequest);
 
 		} catch (Exception e) {
@@ -84,9 +86,20 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<User> getUsers(String adminUser) {
+		
+		if(adminUser == null) {
+			//Something has gone wrong, no user log-in detected
+			//Log an error message
+			throw new IllegalArgumentException();
+		}
+		else {
+			memberTableName = adminUser + "_members_1";
+			historyTableName = adminUser + "_checkin_1";
+		}
+		
 		List<User> userList = new ArrayList<User>();
 		ScanRequest request = new ScanRequest()
-				.withTableName(MEMBER_TABLE_NAME);
+				.withTableName(memberTableName);
 		ScanResult result = dynamoDB.scan(request);
 
 		for (Map<String, AttributeValue> map : result.getItems()) {
@@ -211,6 +224,19 @@ public class AbamathServiceImpl extends RemoteServiceServlet implements
 		}
 
 		return false;
+	}
+	
+	@Override
+	public void addUser(String username, String color) {
+		HashMap<String, AttributeValue> key = new HashMap<String, AttributeValue>();
+		key.put("Name", new AttributeValue().withS(username));
+		key.put("Color", new AttributeValue().withS(color));
+		key.put("Status", new AttributeValue().withS("Out"));
+		key.put("Time", new AttributeValue().withS("0"));
+		PutItemRequest putRequest = new PutItemRequest()
+			.withTableName(memberTableName)
+			.withItem(key);
+		dynamoDB.putItem(putRequest);		
 	}
 
 	private static void setupDB() throws IOException {

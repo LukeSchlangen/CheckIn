@@ -31,10 +31,7 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		//Set up the clients
-		checkinClient = new AbamathCheckinClient(service, this);
 		authClient = new AbamathAuthenticationClient(service, this);
-		adminClient = new AbamathAdminClient(service, this);
-		homeClient = new AbamathHomeClient(service, this);
 		
 		//History token logic
 		if(History.getToken().equalsIgnoreCase("home")) {
@@ -55,6 +52,9 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	protected void setAuthenticationStatus(Status status) {
 		clear();
 		if(status == Status.HOME) {
+			checkinClient = new AbamathCheckinClient(service, this);
+			adminClient = new AbamathAdminClient(service, this);
+			homeClient = new AbamathHomeClient(service, this);
 			RootPanel.get().add(homeClient.getPanelForRoot());
 			History.newItem("home");
 		}
@@ -84,6 +84,14 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 	protected void setCheckinStatus(Status status) {
 		clear();
 		if(status == Status.HOME) {
+			RootPanel.get().add(homeClient.getPanelForRoot());
+		}
+	}
+	
+	protected void setAdminStatus(Status status) {
+		clear();
+		if(status == Status.HOME) {
+			checkinClient.setupPanelForRoot();
 			RootPanel.get().add(homeClient.getPanelForRoot());
 		}
 	}

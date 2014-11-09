@@ -19,4 +19,6 @@ public interface AbamathService extends RemoteService {
 	boolean createAccount(String username, String password);
 	
 	boolean authenticate(String username, String password);
+	
+	void addUser(String username, String color);
 }
