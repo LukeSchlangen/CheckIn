@@ -54,15 +54,13 @@ public class AbamathCheckinClient implements AbamathClient {
 
 		outPanel.add(outHeader);
 		inPanel.add(inHeader);
+		returnHome = new Button("Home");
 
 		showButtons();
 		addCss();
 
 		checkinPanel.add(outPanel);
 
-		
-		returnHome = new Button("Home");
-		returnHome.addStyleName("return-home-button");
 		returnHome.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -143,7 +141,8 @@ public class AbamathCheckinClient implements AbamathClient {
 		inPanel.addStyleName("inPanel");
 		outHeader.addStyleName("panel-heading");
 		inHeader.addStyleName("panel-heading");
-		
+		returnHome.addStyleName("panel-heading");
+		returnHome.addStyleName("return-home-button");
 	}
 
 	public void addButtonCss(Button button, User user) {

@@ -1,0 +1,83 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+
+	</ui:style>
+	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="authPanel">
+			<g:HTMLPanel>
+				<!-- Navigation -->
+				<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+					<div class="container">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse"
+								data-target=".navbar-main-collapse">
+								<i class="fa fa-bars"></i>
+							</button>
+							<a class="navbar-brand page-scroll" href="#page-top">CHECKINSY</a>
+						</div>
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+							<ul class="nav navbar-nav">
+								<!-- Hidden li included to remove active class from about link when 
+									scrolled up past about section -->
+								<li class="hidden">
+									<a href="#page-top"></a>
+								</li>
+								<li>
+									<a class="page-scroll" href="#signup">Sign Up</a>
+								</li>
+								<li>
+									<a class="page-scroll" href="#rsvp">Sign In</a>
+								</li>
+								<li>
+									<a class="page-scroll" href="#rsvp">Learn More</a>
+								</li>
+							</ul>
+						</div>
+						<!-- /.navbar-collapse -->
+					</div>
+				</nav>
+
+
+				<!-- About Section -->
+				<section id="schedule" class="full-screen row">
+					<div
+						class="col-lg-4 col-lg-offset-2 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+						<g:VerticalPanel ui:field="createPanel">
+							<g:Label text="New user? Create account!" />
+							<g:HorizontalPanel>
+								<g:TextBox ui:field="createEmail" />
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
+								<g:PasswordTextBox ui:field="createPassword" />
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
+								<g:Button ui:field="createSubmit" text="Create" />
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+					</div>
+
+					<div
+						class="col-lg-4 col-lg-offset-2 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+						<g:VerticalPanel ui:field="loginPanel">
+							<g:Label text="Existing user? Login!" />
+							<g:HorizontalPanel>
+								<g:TextBox ui:field="loginEmail" />
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
+								<g:PasswordTextBox ui:field="loginPassword" />
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
+								<g:Button ui:field="loginSubmit" text="Login" />
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+					</div>
+				</section>
+			</g:HTMLPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
+
