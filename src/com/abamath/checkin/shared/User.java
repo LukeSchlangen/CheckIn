@@ -104,7 +104,17 @@ public class User implements Serializable, Comparator<User> {
 					seconds = 0; 
 					minutes = 0;
 					hours = 0;
-					b.setHTML ("<namelabel>" + name + "</namelabel><br/>" + ((Integer.parseInt(time)/60)) + " : " +(Integer.parseInt(time)%60) + " : " + "0"+ " Hours");
+					String hoursCorrection = "";
+					String minutesCorrection = "";
+					if(((Integer.parseInt(time)/60))<10)
+					{
+						hoursCorrection = "0";
+					}
+					if((Integer.parseInt(time)%60) < 10)
+					{
+						minutesCorrection = "0";
+					}
+					b.setHTML ("<namelabel>" + name + "</namelabel><br/>" + hoursCorrection +((Integer.parseInt(time)/60)) + " : " + minutesCorrection + (Integer.parseInt(time)%60) + " : " + "00"+ " Hours");
 				}
 			}
 		};
