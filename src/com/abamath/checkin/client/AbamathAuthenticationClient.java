@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.core.client.ScriptInjector;
 
 public class AbamathAuthenticationClient extends Composite implements AbamathClient {
 	
@@ -57,6 +58,7 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 		this.entryPoint = entryPoint;
 		initWidget(uiBinder.createAndBindUi(this));
 		setupPanelForRoot();
+		ScriptInjector.fromUrl("http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js").inject();
 	}
 	
 	@Override
