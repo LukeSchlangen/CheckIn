@@ -1,8 +1,11 @@
 package com.abamath.checkin.client;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -43,6 +46,22 @@ public class AbamathCheckinEntryPoint implements EntryPoint {
 		else {
 			RootPanel.get().add(authClient.getPanelForRoot());
 		}
+		ScriptInjector.fromUrl("https://code.jquery.com/jquery-2.1.1.min.js").setCallback(
+				  new Callback<Void, Exception>() {
+					     public void onFailure(Exception reason) {
+					       Window.alert("Script load failed.");
+					     }
+					    public void onSuccess(Void result) {
+					     }
+					  }).inject();
+		ScriptInjector.fromUrl("http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js").setCallback(
+				  new Callback<Void, Exception>() {
+					     public void onFailure(Exception reason) {
+					       Window.alert("Script load failed.");
+					     }
+					    public void onSuccess(Void result) {
+					     }
+					  }).inject();
 	}
 	
 	private void clear() {

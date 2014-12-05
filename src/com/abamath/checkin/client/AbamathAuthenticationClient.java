@@ -1,6 +1,7 @@
 package com.abamath.checkin.client;
 
 import com.abamath.checkin.client.AbamathCheckinEntryPoint.Status;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -58,7 +60,6 @@ public class AbamathAuthenticationClient extends Composite implements AbamathCli
 		this.entryPoint = entryPoint;
 		initWidget(uiBinder.createAndBindUi(this));
 		setupPanelForRoot();
-		ScriptInjector.fromUrl("http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js").inject();
 	}
 	
 	@Override
